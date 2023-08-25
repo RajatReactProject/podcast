@@ -1,0 +1,15 @@
+.custom-btn{
+    border: 2px solid var(--white);
+    border-radius: 0.35rem;
+    padding: 1rem;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    
+}
+.custom-btn:hover{
+    background-color: var(--white);
+    color: var(--theme);
+    transition: all 0.3s;
+    
+}
