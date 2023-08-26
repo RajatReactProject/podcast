@@ -6,11 +6,13 @@ import { auth, db } from '../firebase';
 import { toast } from 'react-toastify';
 import Buttons from '../Components/common/Buttons';
 import EpisodeDetails from '../Components/common/Podcasts/EpisodeDetails';
+import AudioPlayer from '../Components/common/Podcasts/AudioPlayer';
 
 function PodcastDetailsPage() {
     const navigate = useNavigate();
     const [podcast, setPodcast] = useState({});
     const [episodes, setEpisodes] = useState({});
+    const [playingFile, setPlayingFile] = useState("");
     const { id } = useParams();
     console.log("ID", id);
 
@@ -73,11 +75,12 @@ function PodcastDetailsPage() {
                         <p className='podcast-description'>{podcast.description}</p>
                         <h2 className='podcast-title-heading'>Episodes</h2>
                         {episodes.length>0 ? <>{episodes.map((episode,index) =>{
-                            return <EpisodeDetails key = {index} index = {index+1} title={episode.title} description={episode.description} audioFile={episode.audiofile} onClick={(file) => console.log("Playing"+file)}/>
+                            return <EpisodeDetails key = {index} index = {index+1} title={episode.title} description={episode.description} audioFile={episode.audiofile} onClick={(file) => setPlayingFile(file)}/>
                         })}</>:<p>No Episodes</p>}
                         
                     </div>}
             </div>
+            {playingFile && <AudioPlayer audioSrc = {playingFile} image={podcast.displayImage}/>}
         </div>
     )
 }
