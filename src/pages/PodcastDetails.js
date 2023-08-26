@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../Components/common/Header';
 import { useNavigate, useParams } from 'react-router-dom';
-import { doc, getDoc } from 'firebase/firestore';
+import { QuerySnapshot, collection, doc, getDoc, onSnapshot, query } from 'firebase/firestore';
 import { auth, db } from '../firebase';
 import { toast } from 'react-toastify';
 import Buttons from '../Components/common/Buttons';
+import EpisodeDetails from '../Components/common/Podcasts/EpisodeDetails';
 
 function PodcastDetailsPage() {
     const navigate = useNavigate();
     const [podcast, setPodcast] = useState({});
+    const [episodes, setEpisodes] = useState({});
     const { id } = useParams();
     console.log("ID", id);
 
@@ -36,6 +38,24 @@ function PodcastDetailsPage() {
         }
     };
 
+    useEffect(()=>{
+        const unsubscribe = onSnapshot(
+            query(collection(db,"podcasts",id,"episodes")),
+            (querySnapshot) =>{
+                const episodesData = [];
+                querySnapshot.forEach((doc) =>{
+                    episodesData.push({id:doc.id, ...doc.data()});
+                });
+                setEpisodes(episodesData);
+                console.log(episodes);
+            },
+            
+        );
+        return () => {
+            unsubscribe();
+        }
+    },[id]);
+
 
 
     return (
@@ -46,12 +66,15 @@ function PodcastDetailsPage() {
                     <div>
                         <div style = {{display:'flex' , justifyContent:"space-between", alignItems:"center"}}>
                             <h2 className='podcast-title-heading'>{podcast.title}</h2>
-                            {podcast.createdBy==auth.currentUser.uid &&(<Buttons width = {"300px"} text={"Create Episode"} onClick={()=>{navigate(`/podcast/${id}/create-episode`)}}/>)}
+                            {podcast.createdBy==auth.currentUser.uid &&(<Buttons width = {"300px"} text={"Create Episode"} onClick={()=>{navigate(`/podcast/${id}/create-an-episode`)}}/>)}
                         </div>
                         
                         <div className='banner-wrapper'><img className='podcast-title-heading' src = {podcast.bannerImage} /></div>
                         <p className='podcast-description'>{podcast.description}</p>
                         <h2 className='podcast-title-heading'>Episodes</h2>
+                        {episodes.length>0 ? <>{episodes.map((episode,index) =>{
+                            return <EpisodeDetails key = {index} index = {index+1} title={episode.title} description={episode.description} audioFile={episode.audiofile} onClick={(file) => console.log("Playing"+file)}/>
+                        })}</>:<p>No Episodes</p>}
                         
                     </div>}
             </div>

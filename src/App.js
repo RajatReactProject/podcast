@@ -15,6 +15,7 @@ import PrivateRoutes from './Components/common/PrivateRoutes';
 import CreateAPodcast from './pages/CreateAPodcast';
 import PodcastsPage from './pages/Podcasts';
 import PodcastDetailsPage from './pages/PodcastDetails';
+import CreateAnEpisodePage from './pages/CreateAnEpisode';
 
 
 function App() {
@@ -60,6 +61,7 @@ function App() {
           <Route path='/create-a-podcast' element={<CreateAPodcast />} />
           <Route path='/podcasts' element={<PodcastsPage />} />
           <Route path="/podcast/:id" element={<PodcastDetailsPage />} />
+          <Route path="/podcast/:id/create-an-episode" element={<CreateAnEpisodePage />} />
 
         </Route>
 
