@@ -42,3 +42,45 @@ input {
   text-align: center;
   margin-bottom: 2rem;
 }
+.podcasts-flex{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+a{
+  text-decoration: none;
+}
+
+.podcast-title-heading{
+  text-align: left !important;
+  display: flex !important;
+  width: 100%;  
+}
+
+.banner-wrapper{
+  background: linear-gradient(  
+      blue,black
+  );
+  border-radius: 1rem;
+  padding: 0.5rem;
+  opacity: 0.7;
+  cursor: pointer;
+  height: 300px !important;
+  width : 100% !important;
+
+}
+
+.banner-wrapper img{
+  height: 300px !important;
+  width : 100% !important;
+  object-fit: cover;
+  border-radius: 1rem;
+  
+}
+
+.podcast-description{
+  color: var(--purple-grey);
+  text-align: left;
+}

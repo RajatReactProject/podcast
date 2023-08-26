@@ -14,6 +14,7 @@ import { setUser } from './slices/userSlice';
 import PrivateRoutes from './Components/common/PrivateRoutes';
 import CreateAPodcast from './pages/CreateAPodcast';
 import PodcastsPage from './pages/Podcasts';
+import PodcastDetailsPage from './pages/PodcastDetails';
 
 
 function App() {
@@ -55,9 +56,10 @@ function App() {
       <Routes>
         <Route path='/' element={<SignUpPage />} />
         <Route element={<PrivateRoutes />}>
-          <Route path='profile' element={<Profile />} />
-          <Route path='create-a-podcast' element={<CreateAPodcast />} />
-          <Route path='podcasts' element={<PodcastsPage />} />
+          <Route path='/profile' element={<Profile />} />
+          <Route path='/create-a-podcast' element={<CreateAPodcast />} />
+          <Route path='/podcasts' element={<PodcastsPage />} />
+          <Route path="/podcast/:id" element={<PodcastDetailsPage />} />
 
         </Route>
 
