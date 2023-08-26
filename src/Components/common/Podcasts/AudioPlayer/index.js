@@ -4,15 +4,18 @@ import {FaPlay,FaPause, FaVolumeUp,FaVolumeDown} from "react-icons/fa";
 
 function AudioPlayer({ audioSrc, image }) {
     const audioRef = useRef();
-    const [duration, setDuration] = useState("");
+    const [duration, setDuration] = useState(0);
+    const [currentTime, setCurrentTime] = useState(0);
     const [isPlaying, setIsPlaying] = useState(true);
     const [isMute, setIsMute] = useState(false);
     const [volume, setVolume] = useState(1);
     const handleVolume = (e) => {
         setDuration(e.target.value);
+        audioRef.current.volume=e.target.value;
     }
     const handleDuration = (e) => {
-        setDuration(e.target.value);
+        setCurrentTime(e.target.value);
+        audioRef.current.currentTime=e.target.value;
     }
 
     const togglePlay = () =>{
@@ -37,13 +40,19 @@ function AudioPlayer({ audioSrc, image }) {
         }
 
     },[isPlaying]);
+    useEffect(() =>{
+        setDuration(audioRef.current.duration)
+
+    },[audioRef]);
 
     useEffect(() =>{
         if(!isMute){
-            audioRef.current.volume=1;
+            audioRef.current.volume=volume;
+            setVolume(1);
         }
         else{
             audioRef.current.volume=0;
+            setVolume(0);
         }
 
     },[isMute])
@@ -56,10 +65,10 @@ function AudioPlayer({ audioSrc, image }) {
             <p onClick={togglePlay}>{isPlaying ?<FaPlay />:<FaPause />}</p>
             <div className='duration-flex'>
                 <p>0:0</p>
-                <input type='range' onChange={handleDuration} className='duration-range' />
+                <input type='range' max = {duration} min = {0.001} onChange={handleDuration} className='duration-range' />
                 <p>-21:0</p>
                 <p onClick={toggleMute}>{isMute ?<FaVolumeDown />:<FaVolumeUp />}</p>
-                <input type='range' onChange={handleVolume} className='volume-range' />
+                <input type='range' value={volume} max={1} min={0} step={0.01} onChange={handleVolume} className='volume-range' />
             </div>
 
         </div>
